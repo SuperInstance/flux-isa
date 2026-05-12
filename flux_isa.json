@@ -7,278 +7,1931 @@
     "encoding": "[opcode:1][operand_A:1][operand_B:1][operand_C:1]"
   },
   "opcodes": {
-    "0x00": {"mnemonic": "NOP", "category": "control", "desc": "No operation", "operands": []},
-    "0x01": {"mnemonic": "MOV", "category": "data", "desc": "Move register to register", "operands": ["Rd", "Rs"]},
-    "0x02": {"mnemonic": "MOVI", "category": "data", "desc": "Load 16-bit immediate", "operands": ["Rd", "imm16"]},
-    "0x03": {"mnemonic": "MOVI32", "category": "data", "desc": "Load 32-bit immediate (8-byte sequence)", "operands": ["Rd", "imm32"]},
-    "0x04": {"mnemonic": "FMOV", "category": "float", "desc": "Move float register", "operands": ["Fd", "Fs"]},
-    "0x05": {"mnemonic": "FMOVI", "category": "float", "desc": "Load float immediate", "operands": ["Fd", "float_imm"]},
-    "0x06": {"mnemonic": "SWAP", "category": "data", "desc": "Swap two registers", "operands": ["Ra", "Rb"]},
-    "0x07": {"mnemonic": "ZERO", "category": "data", "desc": "Zero a register", "operands": ["Rd"]},
-
-    "0x08": {"mnemonic": "IADD", "category": "arithmetic", "desc": "Integer add", "operands": ["Rd", "Ra", "Rb"]},
-    "0x09": {"mnemonic": "ISUB", "category": "arithmetic", "desc": "Integer subtract", "operands": ["Rd", "Ra", "Rb"]},
-    "0x0A": {"mnemonic": "IMUL", "category": "arithmetic", "desc": "Integer multiply", "operands": ["Rd", "Ra", "Rb"]},
-    "0x0B": {"mnemonic": "IDIV", "category": "arithmetic", "desc": "Integer divide", "operands": ["Rd", "Ra", "Rb"]},
-    "0x0C": {"mnemonic": "IMOD", "category": "arithmetic", "desc": "Integer modulo", "operands": ["Rd", "Ra", "Rb"]},
-    "0x0D": {"mnemonic": "INEG", "category": "arithmetic", "desc": "Integer negate", "operands": ["Rd"]},
-    "0x0E": {"mnemonic": "INC", "category": "arithmetic", "desc": "Increment", "operands": ["Rd"]},
-    "0x0F": {"mnemonic": "DEC", "category": "arithmetic", "desc": "Decrement", "operands": ["Rd"]},
-
-    "0x10": {"mnemonic": "FADD", "category": "float", "desc": "Float add", "operands": ["Fd", "Fa", "Fb"]},
-    "0x11": {"mnemonic": "FSUB", "category": "float", "desc": "Float subtract", "operands": ["Fd", "Fa", "Fb"]},
-    "0x12": {"mnemonic": "FMUL", "category": "float", "desc": "Float multiply", "operands": ["Fd", "Fa", "Fb"]},
-    "0x13": {"mnemonic": "FDIV", "category": "float", "desc": "Float divide", "operands": ["Fd", "Fa", "Fb"]},
-    "0x14": {"mnemonic": "FNEG", "category": "float", "desc": "Float negate", "operands": ["Fd"]},
-    "0x15": {"mnemonic": "FSQRT", "category": "float", "desc": "Float square root", "operands": ["Fd", "Fa"]},
-    "0x16": {"mnemonic": "FABS", "category": "float", "desc": "Float absolute", "operands": ["Fd", "Fa"]},
-    "0x17": {"mnemonic": "FMIN", "category": "float", "desc": "Float minimum", "operands": ["Fd", "Fa", "Fb"]},
-    "0x18": {"mnemonic": "FMAX", "category": "float", "desc": "Float maximum", "operands": ["Fd", "Fa", "Fb"]},
-    "0x19": {"mnemonic": "FLOOR", "category": "float", "desc": "Float floor", "operands": ["Fd", "Fa"]},
-    "0x1A": {"mnemonic": "CEIL", "category": "float", "desc": "Float ceiling", "operands": ["Fd", "Fa"]},
-    "0x1B": {"mnemonic": "ROUND", "category": "float", "desc": "Float round", "operands": ["Fd", "Fa"]},
-    "0x1C": {"mnemonic": "ITOF", "category": "convert", "desc": "Integer to float", "operands": ["Fd", "Ra"]},
-    "0x1D": {"mnemonic": "FTOI", "category": "convert", "desc": "Float to integer", "operands": ["Rd", "Fa"]},
-    "0x1E": {"mnemonic": "RESERVED_1E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x1F": {"mnemonic": "RESERVED_1F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0x20": {"mnemonic": "AND", "category": "bitwise", "desc": "Bitwise AND", "operands": ["Rd", "Ra", "Rb"]},
-    "0x21": {"mnemonic": "OR", "category": "bitwise", "desc": "Bitwise OR", "operands": ["Rd", "Ra", "Rb"]},
-    "0x22": {"mnemonic": "XOR", "category": "bitwise", "desc": "Bitwise XOR", "operands": ["Rd", "Ra", "Rb"]},
-    "0x23": {"mnemonic": "NOT", "category": "bitwise", "desc": "Bitwise NOT", "operands": ["Rd", "Ra"]},
-    "0x24": {"mnemonic": "SHL", "category": "bitwise", "desc": "Shift left", "operands": ["Rd", "Ra", "Rb"]},
-    "0x25": {"mnemonic": "SHR", "category": "bitwise", "desc": "Shift right logical", "operands": ["Rd", "Ra", "Rb"]},
-    "0x26": {"mnemonic": "SAR", "category": "bitwise", "desc": "Shift right arithmetic", "operands": ["Rd", "Ra", "Rb"]},
-    "0x27": {"mnemonic": "ROL", "category": "bitwise", "desc": "Rotate left", "operands": ["Rd", "Ra", "Rb"]},
-    "0x28": {"mnemonic": "ROR", "category": "bitwise", "desc": "Rotate right", "operands": ["Rd", "Ra", "Rb"]},
-    "0x29": {"mnemonic": "CLZ", "category": "bitwise", "desc": "Count leading zeros", "operands": ["Rd", "Ra"]},
-    "0x2A": {"mnemonic": "POPCNT", "category": "bitwise", "desc": "Population count", "operands": ["Rd", "Ra"]},
-    "0x2B": {"mnemonic": "MOVI", "category": "data", "desc": "Load 16-bit immediate (alias)", "operands": ["Rd", "imm16"]},
-    "0x2C": {"mnemonic": "MOVI32", "category": "data", "desc": "Load 32-bit immediate (alias)", "operands": ["Rd", "imm32"]},
-    "0x2D": {"mnemonic": "CMP", "category": "compare", "desc": "Compare and set flags", "operands": ["Ra", "Rb"]},
-    "0x2E": {"mnemonic": "CMPU", "category": "compare", "desc": "Unsigned compare", "operands": ["Ra", "Rb"]},
-    "0x2F": {"mnemonic": "FCMP", "category": "compare", "desc": "Float compare", "operands": ["Fa", "Fb"]},
-
-    "0x30": {"mnemonic": "JZ", "category": "branch", "desc": "Jump if zero", "operands": ["Rd", "off16"]},
-    "0x31": {"mnemonic": "JNZ", "category": "branch", "desc": "Jump if non-zero", "operands": ["Rd", "off16"]},
-    "0x32": {"mnemonic": "JEQ", "category": "branch", "desc": "Jump if equal", "operands": ["off16"]},
-    "0x33": {"mnemonic": "JNE", "category": "branch", "desc": "Jump if not equal", "operands": ["off16"]},
-    "0x34": {"mnemonic": "JLT", "category": "branch", "desc": "Jump if less", "operands": ["off16"]},
-    "0x35": {"mnemonic": "JGT", "category": "branch", "desc": "Jump if greater", "operands": ["off16"]},
-    "0x36": {"mnemonic": "JLE", "category": "branch", "desc": "Jump if less or equal", "operands": ["off16"]},
-    "0x37": {"mnemonic": "JGE", "category": "branch", "desc": "Jump if greater or equal", "operands": ["off16"]},
-    "0x38": {"mnemonic": "JLTU", "category": "branch", "desc": "Jump if less unsigned", "operands": ["off16"]},
-    "0x39": {"mnemonic": "JGTU", "category": "branch", "desc": "Jump if greater unsigned", "operands": ["off16"]},
-    "0x3A": {"mnemonic": "JMP", "category": "branch", "desc": "Unconditional jump", "operands": ["off16"]},
-    "0x3B": {"mnemonic": "CALL", "category": "branch", "desc": "Call subroutine", "operands": ["addr16"]},
-    "0x3C": {"mnemonic": "RET", "category": "branch", "desc": "Return from subroutine", "operands": []},
-    "0x3D": {"mnemonic": "CALLR", "category": "branch", "desc": "Call register", "operands": ["Ra"]},
-    "0x3E": {"mnemonic": "RESERVED_3E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x3F": {"mnemonic": "RESERVED_3F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0x40": {"mnemonic": "LOAD", "category": "memory", "desc": "Load word from memory", "operands": ["Rd", "Ra", "offset8"]},
-    "0x41": {"mnemonic": "STORE", "category": "memory", "desc": "Store word to memory", "operands": ["Rs", "Ra", "offset8"]},
-    "0x42": {"mnemonic": "LOADB", "category": "memory", "desc": "Load byte", "operands": ["Rd", "Ra"]},
-    "0x43": {"mnemonic": "STOREB", "category": "memory", "desc": "Store byte", "operands": ["Rs", "Ra"]},
-    "0x44": {"mnemonic": "LOADH", "category": "memory", "desc": "Load halfword", "operands": ["Rd", "Ra"]},
-    "0x45": {"mnemonic": "STOREH", "category": "memory", "desc": "Store halfword", "operands": ["Rs", "Ra"]},
-    "0x46": {"mnemonic": "LOADI", "category": "memory", "desc": "Load immediate to memory", "operands": ["addr8", "imm16"]},
-    "0x47": {"mnemonic": "MEMCPY", "category": "memory", "desc": "Copy memory block", "operands": ["Rd", "Ra", "Rb"]},
-    "0x48": {"mnemonic": "MEMSET", "category": "memory", "desc": "Set memory block", "operands": ["Rd", "Ra", "Rb"]},
-    "0x49": {"mnemonic": "RESERVED_49", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x4A": {"mnemonic": "RESERVED_4A", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x4B": {"mnemonic": "RESERVED_4B", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x4C": {"mnemonic": "RESERVED_4C", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x4D": {"mnemonic": "RESERVED_4D", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x4E": {"mnemonic": "RESERVED_4E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x4F": {"mnemonic": "RESERVED_4F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0x50": {"mnemonic": "TELL", "category": "a2a", "desc": "Agent-to-agent send", "operands": ["agent_id", "payload_reg"]},
-    "0x51": {"mnemonic": "ASK", "category": "a2a", "desc": "Agent-to-agent request", "operands": ["agent_id", "payload_reg"]},
-    "0x52": {"mnemonic": "DELEGATE", "category": "a2a", "desc": "Delegate task to agent", "operands": ["agent_id", "bc_start"]},
-    "0x53": {"mnemonic": "BROADCAST", "category": "a2a", "desc": "Broadcast to all agents", "operands": ["payload_reg"]},
-    "0x54": {"mnemonic": "RECEIVE", "category": "a2a", "desc": "Receive from agent", "operands": ["Rd", "timeout_reg"]},
-    "0x55": {"mnemonic": "REPLY", "category": "a2a", "desc": "Reply to agent", "operands": ["agent_id", "payload_reg"]},
-    "0x56": {"mnemonic": "SPAWN", "category": "a2a", "desc": "Spawn new agent", "operands": ["agent_type", "config_reg"]},
-    "0x57": {"mnemonic": "KILL", "category": "a2a", "desc": "Terminate agent", "operands": ["agent_id"]},
-    "0x58": {"mnemonic": "RESERVED_58", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x59": {"mnemonic": "RESERVED_59", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x5A": {"mnemonic": "RESERVED_5A", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x5B": {"mnemonic": "RESERVED_5B", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x5C": {"mnemonic": "RESERVED_5C", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x5D": {"mnemonic": "RESERVED_5D", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x5E": {"mnemonic": "RESERVED_5E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x5F": {"mnemonic": "RESERVED_5F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0x60": {"mnemonic": "CLONE", "category": "speculative", "desc": "Clone VM state", "operands": ["target_reg"]},
-    "0x61": {"mnemonic": "ROLLBACK", "category": "speculative", "desc": "Restore VM state", "operands": ["save_reg"]},
-    "0x62": {"mnemonic": "PEEK", "category": "speculative", "desc": "Dry run, don't commit", "operands": []},
-    "0x63": {"mnemonic": "COMMIT", "category": "speculative", "desc": "Commit speculative state", "operands": []},
-    "0x64": {"mnemonic": "ABORT", "category": "speculative", "desc": "Abort speculative execution", "operands": []},
-    "0x65": {"mnemonic": "LOCK", "category": "speculative", "desc": "Acquire compilation lock", "operands": ["lock_id"]},
-    "0x66": {"mnemonic": "UNLOCK", "category": "speculative", "desc": "Release compilation lock", "operands": ["lock_id"]},
-    "0x67": {"mnemonic": "RESERVED_67", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x68": {"mnemonic": "RESERVED_68", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x69": {"mnemonic": "RESERVED_69", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x6A": {"mnemonic": "RESERVED_6A", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x6B": {"mnemonic": "RESERVED_6B", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x6C": {"mnemonic": "RESERVED_6C", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x6D": {"mnemonic": "RESERVED_6D", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x6E": {"mnemonic": "RESERVED_6E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x6F": {"mnemonic": "RESERVED_6F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0x70": {"mnemonic": "HALT", "category": "control", "desc": "Stop execution", "operands": []},
-    "0x71": {"mnemonic": "YIELD", "category": "control", "desc": "Yield to scheduler", "operands": []},
-    "0x72": {"mnemonic": "SLEEP", "category": "control", "desc": "Sleep for cycles", "operands": ["cycles"]},
-    "0x73": {"mnemonic": "WAIT", "category": "control", "desc": "Wait for event", "operands": ["event_mask"]},
-    "0x74": {"mnemonic": "BREAK", "category": "control", "desc": "Breakpoint trap", "operands": []},
-    "0x75": {"mnemonic": "TRACE", "category": "control", "desc": "Tracepoint", "operands": ["trace_id"]},
-    "0x76": {"mnemonic": "PANIC", "category": "control", "desc": "Fatal error", "operands": ["error_code"]},
-    "0x77": {"mnemonic": "RESERVED_77", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x78": {"mnemonic": "RESERVED_78", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x79": {"mnemonic": "RESERVED_79", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x7A": {"mnemonic": "RESERVED_7A", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x7B": {"mnemonic": "RESERVED_7B", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x7C": {"mnemonic": "RESERVED_7C", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x7D": {"mnemonic": "RESERVED_7D", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x7E": {"mnemonic": "RESERVED_7E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x7F": {"mnemonic": "RESERVED_7F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0x80": {"mnemonic": "SYSCALL", "category": "system", "desc": "System call", "operands": ["number"]},
-    "0x81": {"mnemonic": "SYSCALL1", "category": "system", "desc": "System call with 1 arg", "operands": ["number", "arg1"]},
-    "0x82": {"mnemonic": "SYSCALL2", "category": "system", "desc": "System call with 2 args", "operands": ["number", "arg1", "arg2"]},
-    "0x83": {"mnemonic": "SYSCALL3", "category": "system", "desc": "System call with 3 args", "operands": ["number", "arg1", "arg2", "arg3"]},
-    "0x84": {"mnemonic": "GETPID", "category": "system", "desc": "Get process ID", "operands": ["Rd"]},
-    "0x85": {"mnemonic": "GETTIME", "category": "system", "desc": "Get timestamp", "operands": ["Rd"]},
-    "0x86": {"mnemonic": "RANDOM", "category": "system", "desc": "Get random number", "operands": ["Rd"]},
-    "0x87": {"mnemonic": "HASH", "category": "system", "desc": "Hash register value", "operands": ["Rd", "Ra"]},
-    "0x88": {"mnemonic": "RESERVED_88", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x89": {"mnemonic": "RESERVED_89", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x8A": {"mnemonic": "RESERVED_8A", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x8B": {"mnemonic": "RESERVED_8B", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x8C": {"mnemonic": "RESERVED_8C", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x8D": {"mnemonic": "RESERVED_8D", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x8E": {"mnemonic": "RESERVED_8E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x8F": {"mnemonic": "RESERVED_8F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0x90": {"mnemonic": "VEC_ADD", "category": "vector", "desc": "Vector add", "operands": ["Rd", "Ra", "Rb"]},
-    "0x91": {"mnemonic": "VEC_SUB", "category": "vector", "desc": "Vector subtract", "operands": ["Rd", "Ra", "Rb"]},
-    "0x92": {"mnemonic": "VEC_MUL", "category": "vector", "desc": "Vector multiply", "operands": ["Rd", "Ra", "Rb"]},
-    "0x93": {"mnemonic": "VEC_DOT", "category": "vector", "desc": "Vector dot product", "operands": ["Rd", "Ra", "Rb"]},
-    "0x94": {"mnemonic": "VEC_LEN", "category": "vector", "desc": "Vector length", "operands": ["Rd", "Ra"]},
-    "0x95": {"mnemonic": "VEC_NORM", "category": "vector", "desc": "Vector normalize", "operands": ["Rd", "Ra"]},
-    "0x96": {"mnemonic": "VEC_SCALE", "category": "vector", "desc": "Vector scale", "operands": ["Rd", "Ra", "Rb"]},
-    "0x97": {"mnemonic": "VEC_LOAD", "category": "vector", "desc": "Load vector from memory", "operands": ["Rd", "Ra"]},
-    "0x98": {"mnemonic": "VEC_STORE", "category": "vector", "desc": "Store vector to memory", "operands": ["Rs", "Ra"]},
-    "0x99": {"mnemonic": "RESERVED_99", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x9A": {"mnemonic": "RESERVED_9A", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x9B": {"mnemonic": "RESERVED_9B", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x9C": {"mnemonic": "RESERVED_9C", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x9D": {"mnemonic": "RESERVED_9D", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x9E": {"mnemonic": "RESERVED_9E", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0x9F": {"mnemonic": "RESERVED_9F", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0xA0": {"mnemonic": "AGENT_SELF", "category": "agent", "desc": "Get self agent ID", "operands": ["Rd"]},
-    "0xA1": {"mnemonic": "AGENT_LIST", "category": "agent", "desc": "List active agents", "operands": ["Rd"]},
-    "0xA2": {"mnemonic": "AGENT_CAP", "category": "agent", "desc": "Get agent capability", "operands": ["Rd", "agent_id"]},
-    "0xA3": {"mnemonic": "AGENT_STATE", "category": "agent", "desc": "Get agent state", "operands": ["Rd", "agent_id"]},
-    "0xA4": {"mnemonic": "AGENT_BIND", "category": "agent", "desc": "Bind to agent", "operands": ["agent_id", "port_reg"]},
-    "0xA5": {"mnemonic": "AGENT_UNBIND", "category": "agent", "desc": "Unbind from agent", "operands": ["agent_id"]},
-    "0xA6": {"mnemonic": "RESERVED_A6", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xA7": {"mnemonic": "RESERVED_A7", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xA8": {"mnemonic": "RESERVED_A8", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xA9": {"mnemonic": "RESERVED_A9", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xAA": {"mnemonic": "RESERVED_AA", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xAB": {"mnemonic": "RESERVED_AB", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xAC": {"mnemonic": "RESERVED_AC", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xAD": {"mnemonic": "RESERVED_AD", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xAE": {"mnemonic": "RESERVED_AE", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xAF": {"mnemonic": "RESERVED_AF", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0xB0": {"mnemonic": "PLATO_READ", "category": "plato", "desc": "Read tile from PLATO", "operands": ["Rd", "room_id", "tile_id"]},
-    "0xB1": {"mnemonic": "PLATO_WRITE", "category": "plato", "desc": "Write tile to PLATO", "operands": ["room_id", "Rs"]},
-    "0xB2": {"mnemonic": "PLATO_SEARCH", "category": "plato", "desc": "Search PLATO room", "operands": ["Rd", "room_id", "query_reg"]},
-    "0xB3": {"mnemonic": "PLATO_JOIN", "category": "plato", "desc": "Join PLATO room", "operands": ["room_id"]},
-    "0xB4": {"mnemonic": "PLATO_LEAVE", "category": "plato", "desc": "Leave PLATO room", "operands": ["room_id"]},
-    "0xB5": {"mnemonic": "PLATO_STATUS", "category": "plato", "desc": "Get PLATO gate status", "operands": ["Rd"]},
-    "0xB6": {"mnemonic": "RESERVED_B6", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xB7": {"mnemonic": "RESERVED_B7", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xB8": {"mnemonic": "RESERVED_B8", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xB9": {"mnemonic": "RESERVED_B9", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xBA": {"mnemonic": "RESERVED_BA", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xBB": {"mnemonic": "RESERVED_BB", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xBC": {"mnemonic": "RESERVED_BC", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xBD": {"mnemonic": "RESERVED_BD", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xBE": {"mnemonic": "RESERVED_BE", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xBF": {"mnemonic": "RESERVED_BF", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0xC0": {"mnemonic": "STR_LEN", "category": "string", "desc": "String length", "operands": ["Rd", "Ra"]},
-    "0xC1": {"mnemonic": "STR_CMP", "category": "string", "desc": "String compare", "operands": ["Rd", "Ra", "Rb"]},
-    "0xC2": {"mnemonic": "STR_CAT", "category": "string", "desc": "String concatenate", "operands": ["Rd", "Ra", "Rb"]},
-    "0xC3": {"mnemonic": "STR_SUB", "category": "string", "desc": "String substring", "operands": ["Rd", "Ra", "Rb"]},
-    "0xC4": {"mnemonic": "STR_FIND", "category": "string", "desc": "String find", "operands": ["Rd", "Ra", "Rb"]},
-    "0xC5": {"mnemonic": "STR_SPLIT", "category": "string", "desc": "String split", "operands": ["Rd", "Ra", "Rb"]},
-    "0xC6": {"mnemonic": "JSON_PARSE", "category": "string", "desc": "Parse JSON", "operands": ["Rd", "Ra"]},
-    "0xC7": {"mnemonic": "JSON_STRINGIFY", "category": "string", "desc": "Stringify JSON", "operands": ["Rd", "Ra"]},
-    "0xC8": {"mnemonic": "RESERVED_C8", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xC9": {"mnemonic": "RESERVED_C9", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xCA": {"mnemonic": "RESERVED_CA", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xCB": {"mnemonic": "RESERVED_CB", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xCC": {"mnemonic": "RESERVED_CC", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xCD": {"mnemonic": "RESERVED_CD", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xCE": {"mnemonic": "RESERVED_CE", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xCF": {"mnemonic": "RESERVED_CF", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0xD0": {"mnemonic": "NN_LOAD", "category": "ml", "desc": "Load neural network weights", "operands": ["Rd", "model_id"]},
-    "0xD1": {"mnemonic": "NN_INFER", "category": "ml", "desc": "Run inference", "operands": ["Rd", "model_id", "input_reg"]},
-    "0xD2": {"mnemonic": "NN_EMBED", "category": "ml", "desc": "Generate embedding", "operands": ["Rd", "input_reg"]},
-    "0xD3": {"mnemonic": "NN_SIMILARITY", "category": "ml", "desc": "Compute similarity", "operands": ["Rd", "Ra", "Rb"]},
-    "0xD4": {"mnemonic": "NN_CLASSIFY", "category": "ml", "desc": "Classify input", "operands": ["Rd", "model_id", "input_reg"]},
-    "0xD5": {"mnemonic": "RESERVED_D5", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xD6": {"mnemonic": "RESERVED_D6", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xD7": {"mnemonic": "RESERVED_D7", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xD8": {"mnemonic": "RESERVED_D8", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xD9": {"mnemonic": "RESERVED_D9", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xDA": {"mnemonic": "RESERVED_DA", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xDB": {"mnemonic": "RESERVED_DB", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xDC": {"mnemonic": "RESERVED_DC", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xDD": {"mnemonic": "RESERVED_DD", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xDE": {"mnemonic": "RESERVED_DE", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xDF": {"mnemonic": "RESERVED_DF", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0xE0": {"mnemonic": "GPU_LOAD", "category": "gpu", "desc": "Load data to GPU", "operands": ["Rd", "Ra"]},
-    "0xE1": {"mnemonic": "GPU_STORE", "category": "gpu", "desc": "Store data from GPU", "operands": ["Rd", "Ra"]},
-    "0xE2": {"mnemonic": "GPU_KERNEL", "category": "gpu", "desc": "Launch GPU kernel", "operands": ["kernel_id", "grid_reg"]},
-    "0xE3": {"mnemonic": "GPU_SYNC", "category": "gpu", "desc": "Synchronize GPU", "operands": []},
-    "0xE4": {"mnemonic": "RESERVED_E4", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xE5": {"mnemonic": "RESERVED_E5", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xE6": {"mnemonic": "RESERVED_E6", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xE7": {"mnemonic": "RESERVED_E7", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xE8": {"mnemonic": "RESERVED_E8", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xE9": {"mnemonic": "RESERVED_E9", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xEA": {"mnemonic": "RESERVED_EA", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xEB": {"mnemonic": "RESERVED_EB", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xEC": {"mnemonic": "RESERVED_EC", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xED": {"mnemonic": "RESERVED_ED", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xEE": {"mnemonic": "RESERVED_EE", "category": "reserved", "desc": "Reserved", "operands": []},
-    "0xEF": {"mnemonic": "RESERVED_EF", "category": "reserved", "desc": "Reserved", "operands": []},
-
-    "0xF0": {"mnemonic": "RESERVED_F0", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF1": {"mnemonic": "RESERVED_F1", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF2": {"mnemonic": "RESERVED_F2", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF3": {"mnemonic": "RESERVED_F3", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF4": {"mnemonic": "RESERVED_F4", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF5": {"mnemonic": "RESERVED_F5", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF6": {"mnemonic": "RESERVED_F6", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF7": {"mnemonic": "RESERVED_F7", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF8": {"mnemonic": "RESERVED_F8", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xF9": {"mnemonic": "RESERVED_F9", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xFA": {"mnemonic": "RESERVED_FA", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xFB": {"mnemonic": "RESERVED_FB", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xFC": {"mnemonic": "RESERVED_FC", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xFD": {"mnemonic": "RESERVED_FD", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xFE": {"mnemonic": "RESERVED_FE", "category": "reserved", "desc": "Reserved for extensions", "operands": []},
-    "0xFF": {"mnemonic": "RESERVED_FF", "category": "reserved", "desc": "Reserved for extensions", "operands": []}
+    "0x00": {
+      "mnemonic": "NOP",
+      "category": "control",
+      "desc": "No operation",
+      "operands": []
+    },
+    "0x01": {
+      "mnemonic": "MOV",
+      "category": "data",
+      "desc": "Move register to register",
+      "operands": [
+        "Rd",
+        "Rs"
+      ]
+    },
+    "0x02": {
+      "mnemonic": "MOVI",
+      "category": "data",
+      "desc": "Load 16-bit immediate",
+      "operands": [
+        "Rd",
+        "imm16"
+      ]
+    },
+    "0x03": {
+      "mnemonic": "MOVI32",
+      "category": "data",
+      "desc": "Load 32-bit immediate (8-byte sequence)",
+      "operands": [
+        "Rd",
+        "imm32"
+      ]
+    },
+    "0x04": {
+      "mnemonic": "FMOV",
+      "category": "float",
+      "desc": "Move float register",
+      "operands": [
+        "Fd",
+        "Fs"
+      ]
+    },
+    "0x05": {
+      "mnemonic": "FMOVI",
+      "category": "float",
+      "desc": "Load float immediate",
+      "operands": [
+        "Fd",
+        "float_imm"
+      ]
+    },
+    "0x06": {
+      "mnemonic": "SWAP",
+      "category": "data",
+      "desc": "Swap two registers",
+      "operands": [
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x07": {
+      "mnemonic": "ZERO",
+      "category": "data",
+      "desc": "Zero a register",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0x08": {
+      "mnemonic": "IADD",
+      "category": "arithmetic",
+      "desc": "Integer add",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x09": {
+      "mnemonic": "ISUB",
+      "category": "arithmetic",
+      "desc": "Integer subtract",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x0A": {
+      "mnemonic": "IMUL",
+      "category": "arithmetic",
+      "desc": "Integer multiply",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x0B": {
+      "mnemonic": "IDIV",
+      "category": "arithmetic",
+      "desc": "Integer divide",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x0C": {
+      "mnemonic": "IMOD",
+      "category": "arithmetic",
+      "desc": "Integer modulo",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x0D": {
+      "mnemonic": "INEG",
+      "category": "arithmetic",
+      "desc": "Integer negate",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0x0E": {
+      "mnemonic": "INC",
+      "category": "arithmetic",
+      "desc": "Increment",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0x0F": {
+      "mnemonic": "DEC",
+      "category": "arithmetic",
+      "desc": "Decrement",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0x10": {
+      "mnemonic": "FADD",
+      "category": "float",
+      "desc": "Float add",
+      "operands": [
+        "Fd",
+        "Fa",
+        "Fb"
+      ]
+    },
+    "0x11": {
+      "mnemonic": "FSUB",
+      "category": "float",
+      "desc": "Float subtract",
+      "operands": [
+        "Fd",
+        "Fa",
+        "Fb"
+      ]
+    },
+    "0x12": {
+      "mnemonic": "FMUL",
+      "category": "float",
+      "desc": "Float multiply",
+      "operands": [
+        "Fd",
+        "Fa",
+        "Fb"
+      ]
+    },
+    "0x13": {
+      "mnemonic": "FDIV",
+      "category": "float",
+      "desc": "Float divide",
+      "operands": [
+        "Fd",
+        "Fa",
+        "Fb"
+      ]
+    },
+    "0x14": {
+      "mnemonic": "FNEG",
+      "category": "float",
+      "desc": "Float negate",
+      "operands": [
+        "Fd"
+      ]
+    },
+    "0x15": {
+      "mnemonic": "FSQRT",
+      "category": "float",
+      "desc": "Float square root",
+      "operands": [
+        "Fd",
+        "Fa"
+      ]
+    },
+    "0x16": {
+      "mnemonic": "FABS",
+      "category": "float",
+      "desc": "Float absolute",
+      "operands": [
+        "Fd",
+        "Fa"
+      ]
+    },
+    "0x17": {
+      "mnemonic": "FMIN",
+      "category": "float",
+      "desc": "Float minimum",
+      "operands": [
+        "Fd",
+        "Fa",
+        "Fb"
+      ]
+    },
+    "0x18": {
+      "mnemonic": "FMAX",
+      "category": "float",
+      "desc": "Float maximum",
+      "operands": [
+        "Fd",
+        "Fa",
+        "Fb"
+      ]
+    },
+    "0x19": {
+      "mnemonic": "FLOOR",
+      "category": "float",
+      "desc": "Float floor",
+      "operands": [
+        "Fd",
+        "Fa"
+      ]
+    },
+    "0x1A": {
+      "mnemonic": "CEIL",
+      "category": "float",
+      "desc": "Float ceiling",
+      "operands": [
+        "Fd",
+        "Fa"
+      ]
+    },
+    "0x1B": {
+      "mnemonic": "ROUND",
+      "category": "float",
+      "desc": "Float round",
+      "operands": [
+        "Fd",
+        "Fa"
+      ]
+    },
+    "0x1C": {
+      "mnemonic": "ITOF",
+      "category": "convert",
+      "desc": "Integer to float",
+      "operands": [
+        "Fd",
+        "Ra"
+      ]
+    },
+    "0x1D": {
+      "mnemonic": "FTOI",
+      "category": "convert",
+      "desc": "Float to integer",
+      "operands": [
+        "Rd",
+        "Fa"
+      ]
+    },
+    "0x1E": {
+      "mnemonic": "RESERVED_1E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x1F": {
+      "mnemonic": "RESERVED_1F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x20": {
+      "mnemonic": "AND",
+      "category": "bitwise",
+      "desc": "Bitwise AND",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x21": {
+      "mnemonic": "OR",
+      "category": "bitwise",
+      "desc": "Bitwise OR",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x22": {
+      "mnemonic": "XOR",
+      "category": "bitwise",
+      "desc": "Bitwise XOR",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x23": {
+      "mnemonic": "NOT",
+      "category": "bitwise",
+      "desc": "Bitwise NOT",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x24": {
+      "mnemonic": "SHL",
+      "category": "bitwise",
+      "desc": "Shift left",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x25": {
+      "mnemonic": "SHR",
+      "category": "bitwise",
+      "desc": "Shift right logical",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x26": {
+      "mnemonic": "SAR",
+      "category": "bitwise",
+      "desc": "Shift right arithmetic",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x27": {
+      "mnemonic": "ROL",
+      "category": "bitwise",
+      "desc": "Rotate left",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x28": {
+      "mnemonic": "ROR",
+      "category": "bitwise",
+      "desc": "Rotate right",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x29": {
+      "mnemonic": "CLZ",
+      "category": "bitwise",
+      "desc": "Count leading zeros",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x2A": {
+      "mnemonic": "POPCNT",
+      "category": "bitwise",
+      "desc": "Population count",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x2B": {
+      "mnemonic": "MOVI",
+      "category": "data",
+      "desc": "Load 16-bit immediate (alias)",
+      "operands": [
+        "Rd",
+        "imm16"
+      ]
+    },
+    "0x2C": {
+      "mnemonic": "MOVI32",
+      "category": "data",
+      "desc": "Load 32-bit immediate (alias)",
+      "operands": [
+        "Rd",
+        "imm32"
+      ]
+    },
+    "0x2D": {
+      "mnemonic": "CMP",
+      "category": "compare",
+      "desc": "Compare and set flags",
+      "operands": [
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x2E": {
+      "mnemonic": "CMPU",
+      "category": "compare",
+      "desc": "Unsigned compare",
+      "operands": [
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x2F": {
+      "mnemonic": "FCMP",
+      "category": "compare",
+      "desc": "Float compare",
+      "operands": [
+        "Fa",
+        "Fb"
+      ]
+    },
+    "0x30": {
+      "mnemonic": "JZ",
+      "category": "branch",
+      "desc": "Jump if zero",
+      "operands": [
+        "Rd",
+        "off16"
+      ]
+    },
+    "0x31": {
+      "mnemonic": "JNZ",
+      "category": "branch",
+      "desc": "Jump if non-zero",
+      "operands": [
+        "Rd",
+        "off16"
+      ]
+    },
+    "0x32": {
+      "mnemonic": "JEQ",
+      "category": "branch",
+      "desc": "Jump if equal",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x33": {
+      "mnemonic": "JNE",
+      "category": "branch",
+      "desc": "Jump if not equal",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x34": {
+      "mnemonic": "JLT",
+      "category": "branch",
+      "desc": "Jump if less",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x35": {
+      "mnemonic": "JGT",
+      "category": "branch",
+      "desc": "Jump if greater",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x36": {
+      "mnemonic": "JLE",
+      "category": "branch",
+      "desc": "Jump if less or equal",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x37": {
+      "mnemonic": "JGE",
+      "category": "branch",
+      "desc": "Jump if greater or equal",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x38": {
+      "mnemonic": "JLTU",
+      "category": "branch",
+      "desc": "Jump if less unsigned",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x39": {
+      "mnemonic": "JGTU",
+      "category": "branch",
+      "desc": "Jump if greater unsigned",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x3A": {
+      "mnemonic": "JMP",
+      "category": "branch",
+      "desc": "Unconditional jump",
+      "operands": [
+        "off16"
+      ]
+    },
+    "0x3B": {
+      "mnemonic": "CALL",
+      "category": "branch",
+      "desc": "Call subroutine",
+      "operands": [
+        "addr16"
+      ]
+    },
+    "0x3C": {
+      "mnemonic": "RET",
+      "category": "branch",
+      "desc": "Return from subroutine",
+      "operands": []
+    },
+    "0x3D": {
+      "mnemonic": "CALLR",
+      "category": "branch",
+      "desc": "Call register",
+      "operands": [
+        "Ra"
+      ]
+    },
+    "0x3E": {
+      "mnemonic": "RESERVED_3E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x3F": {
+      "mnemonic": "RESERVED_3F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x40": {
+      "mnemonic": "LOAD",
+      "category": "memory",
+      "desc": "Load word from memory",
+      "operands": [
+        "Rd",
+        "Ra",
+        "offset8"
+      ]
+    },
+    "0x41": {
+      "mnemonic": "STORE",
+      "category": "memory",
+      "desc": "Store word to memory",
+      "operands": [
+        "Rs",
+        "Ra",
+        "offset8"
+      ]
+    },
+    "0x42": {
+      "mnemonic": "LOADB",
+      "category": "memory",
+      "desc": "Load byte",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x43": {
+      "mnemonic": "STOREB",
+      "category": "memory",
+      "desc": "Store byte",
+      "operands": [
+        "Rs",
+        "Ra"
+      ]
+    },
+    "0x44": {
+      "mnemonic": "LOADH",
+      "category": "memory",
+      "desc": "Load halfword",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x45": {
+      "mnemonic": "STOREH",
+      "category": "memory",
+      "desc": "Store halfword",
+      "operands": [
+        "Rs",
+        "Ra"
+      ]
+    },
+    "0x46": {
+      "mnemonic": "LOADI",
+      "category": "memory",
+      "desc": "Load immediate to memory",
+      "operands": [
+        "addr8",
+        "imm16"
+      ]
+    },
+    "0x47": {
+      "mnemonic": "MEMCPY",
+      "category": "memory",
+      "desc": "Copy memory block",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x48": {
+      "mnemonic": "MEMSET",
+      "category": "memory",
+      "desc": "Set memory block",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x49": {
+      "mnemonic": "RESERVED_49",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x4A": {
+      "mnemonic": "RESERVED_4A",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x4B": {
+      "mnemonic": "RESERVED_4B",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x4C": {
+      "mnemonic": "RESERVED_4C",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x4D": {
+      "mnemonic": "RESERVED_4D",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x4E": {
+      "mnemonic": "RESERVED_4E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x4F": {
+      "mnemonic": "RESERVED_4F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x50": {
+      "mnemonic": "TELL",
+      "category": "a2a",
+      "desc": "Agent-to-agent send",
+      "operands": [
+        "agent_id",
+        "payload_reg"
+      ]
+    },
+    "0x51": {
+      "mnemonic": "ASK",
+      "category": "a2a",
+      "desc": "Agent-to-agent request",
+      "operands": [
+        "agent_id",
+        "payload_reg"
+      ]
+    },
+    "0x52": {
+      "mnemonic": "DELEGATE",
+      "category": "a2a",
+      "desc": "Delegate task to agent",
+      "operands": [
+        "agent_id",
+        "bc_start"
+      ]
+    },
+    "0x53": {
+      "mnemonic": "BROADCAST",
+      "category": "a2a",
+      "desc": "Broadcast to all agents",
+      "operands": [
+        "payload_reg"
+      ]
+    },
+    "0x54": {
+      "mnemonic": "RECEIVE",
+      "category": "a2a",
+      "desc": "Receive from agent",
+      "operands": [
+        "Rd",
+        "timeout_reg"
+      ]
+    },
+    "0x55": {
+      "mnemonic": "REPLY",
+      "category": "a2a",
+      "desc": "Reply to agent",
+      "operands": [
+        "agent_id",
+        "payload_reg"
+      ]
+    },
+    "0x56": {
+      "mnemonic": "SPAWN",
+      "category": "a2a",
+      "desc": "Spawn new agent",
+      "operands": [
+        "agent_type",
+        "config_reg"
+      ]
+    },
+    "0x57": {
+      "mnemonic": "KILL",
+      "category": "a2a",
+      "desc": "Terminate agent",
+      "operands": [
+        "agent_id"
+      ]
+    },
+    "0x58": {
+      "mnemonic": "RESERVED_58",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x59": {
+      "mnemonic": "RESERVED_59",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x5A": {
+      "mnemonic": "RESERVED_5A",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x5B": {
+      "mnemonic": "RESERVED_5B",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x5C": {
+      "mnemonic": "RESERVED_5C",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x5D": {
+      "mnemonic": "RESERVED_5D",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x5E": {
+      "mnemonic": "RESERVED_5E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x5F": {
+      "mnemonic": "RESERVED_5F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x60": {
+      "mnemonic": "CLONE",
+      "category": "speculative",
+      "desc": "Clone VM state",
+      "operands": [
+        "target_reg"
+      ]
+    },
+    "0x61": {
+      "mnemonic": "ROLLBACK",
+      "category": "speculative",
+      "desc": "Restore VM state",
+      "operands": [
+        "save_reg"
+      ]
+    },
+    "0x62": {
+      "mnemonic": "PEEK",
+      "category": "speculative",
+      "desc": "Dry run, don't commit",
+      "operands": []
+    },
+    "0x63": {
+      "mnemonic": "COMMIT",
+      "category": "speculative",
+      "desc": "Commit speculative state",
+      "operands": []
+    },
+    "0x64": {
+      "mnemonic": "ABORT",
+      "category": "speculative",
+      "desc": "Abort speculative execution",
+      "operands": []
+    },
+    "0x65": {
+      "mnemonic": "LOCK",
+      "category": "speculative",
+      "desc": "Acquire compilation lock",
+      "operands": [
+        "lock_id"
+      ]
+    },
+    "0x66": {
+      "mnemonic": "UNLOCK",
+      "category": "speculative",
+      "desc": "Release compilation lock",
+      "operands": [
+        "lock_id"
+      ]
+    },
+    "0x67": {
+      "mnemonic": "RESERVED_67",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x68": {
+      "mnemonic": "RESERVED_68",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x69": {
+      "mnemonic": "RESERVED_69",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x6A": {
+      "mnemonic": "RESERVED_6A",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x6B": {
+      "mnemonic": "RESERVED_6B",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x6C": {
+      "mnemonic": "RESERVED_6C",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x6D": {
+      "mnemonic": "RESERVED_6D",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x6E": {
+      "mnemonic": "RESERVED_6E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x6F": {
+      "mnemonic": "RESERVED_6F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x70": {
+      "mnemonic": "HALT",
+      "category": "control",
+      "desc": "Stop execution",
+      "operands": []
+    },
+    "0x71": {
+      "mnemonic": "YIELD",
+      "category": "control",
+      "desc": "Yield to scheduler",
+      "operands": []
+    },
+    "0x72": {
+      "mnemonic": "SLEEP",
+      "category": "control",
+      "desc": "Sleep for cycles",
+      "operands": [
+        "cycles"
+      ]
+    },
+    "0x73": {
+      "mnemonic": "WAIT",
+      "category": "control",
+      "desc": "Wait for event",
+      "operands": [
+        "event_mask"
+      ]
+    },
+    "0x74": {
+      "mnemonic": "BREAK",
+      "category": "control",
+      "desc": "Breakpoint trap",
+      "operands": []
+    },
+    "0x75": {
+      "mnemonic": "TRACE",
+      "category": "control",
+      "desc": "Tracepoint",
+      "operands": [
+        "trace_id"
+      ]
+    },
+    "0x76": {
+      "mnemonic": "PANIC",
+      "category": "control",
+      "desc": "Fatal error",
+      "operands": [
+        "error_code"
+      ]
+    },
+    "0x77": {
+      "mnemonic": "RESERVED_77",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x78": {
+      "mnemonic": "RESERVED_78",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x79": {
+      "mnemonic": "RESERVED_79",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x7A": {
+      "mnemonic": "RESERVED_7A",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x7B": {
+      "mnemonic": "RESERVED_7B",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x7C": {
+      "mnemonic": "RESERVED_7C",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x7D": {
+      "mnemonic": "RESERVED_7D",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x7E": {
+      "mnemonic": "RESERVED_7E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x7F": {
+      "mnemonic": "RESERVED_7F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x80": {
+      "mnemonic": "SYSCALL",
+      "category": "system",
+      "desc": "System call",
+      "operands": [
+        "number"
+      ]
+    },
+    "0x81": {
+      "mnemonic": "SYSCALL1",
+      "category": "system",
+      "desc": "System call with 1 arg",
+      "operands": [
+        "number",
+        "arg1"
+      ]
+    },
+    "0x82": {
+      "mnemonic": "SYSCALL2",
+      "category": "system",
+      "desc": "System call with 2 args",
+      "operands": [
+        "number",
+        "arg1",
+        "arg2"
+      ]
+    },
+    "0x83": {
+      "mnemonic": "SYSCALL3",
+      "category": "system",
+      "desc": "System call with 3 args",
+      "operands": [
+        "number",
+        "arg1",
+        "arg2",
+        "arg3"
+      ]
+    },
+    "0x84": {
+      "mnemonic": "GETPID",
+      "category": "system",
+      "desc": "Get process ID",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0x85": {
+      "mnemonic": "GETTIME",
+      "category": "system",
+      "desc": "Get timestamp",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0x86": {
+      "mnemonic": "RANDOM",
+      "category": "system",
+      "desc": "Get random number",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0x87": {
+      "mnemonic": "HASH",
+      "category": "system",
+      "desc": "Hash register value",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x88": {
+      "mnemonic": "RESERVED_88",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x89": {
+      "mnemonic": "RESERVED_89",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x8A": {
+      "mnemonic": "RESERVED_8A",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x8B": {
+      "mnemonic": "RESERVED_8B",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x8C": {
+      "mnemonic": "RESERVED_8C",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x8D": {
+      "mnemonic": "RESERVED_8D",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x8E": {
+      "mnemonic": "RESERVED_8E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x8F": {
+      "mnemonic": "RESERVED_8F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x90": {
+      "mnemonic": "VEC_ADD",
+      "category": "vector",
+      "desc": "Vector add",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x91": {
+      "mnemonic": "VEC_SUB",
+      "category": "vector",
+      "desc": "Vector subtract",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x92": {
+      "mnemonic": "VEC_MUL",
+      "category": "vector",
+      "desc": "Vector multiply",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x93": {
+      "mnemonic": "VEC_DOT",
+      "category": "vector",
+      "desc": "Vector dot product",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x94": {
+      "mnemonic": "VEC_LEN",
+      "category": "vector",
+      "desc": "Vector length",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x95": {
+      "mnemonic": "VEC_NORM",
+      "category": "vector",
+      "desc": "Vector normalize",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x96": {
+      "mnemonic": "VEC_SCALE",
+      "category": "vector",
+      "desc": "Vector scale",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0x97": {
+      "mnemonic": "VEC_LOAD",
+      "category": "vector",
+      "desc": "Load vector from memory",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0x98": {
+      "mnemonic": "VEC_STORE",
+      "category": "vector",
+      "desc": "Store vector to memory",
+      "operands": [
+        "Rs",
+        "Ra"
+      ]
+    },
+    "0x99": {
+      "mnemonic": "RESERVED_99",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x9A": {
+      "mnemonic": "RESERVED_9A",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x9B": {
+      "mnemonic": "RESERVED_9B",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x9C": {
+      "mnemonic": "RESERVED_9C",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x9D": {
+      "mnemonic": "RESERVED_9D",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x9E": {
+      "mnemonic": "RESERVED_9E",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0x9F": {
+      "mnemonic": "RESERVED_9F",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xA0": {
+      "mnemonic": "AGENT_SELF",
+      "category": "agent",
+      "desc": "Get self agent ID",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0xA1": {
+      "mnemonic": "AGENT_LIST",
+      "category": "agent",
+      "desc": "List active agents",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0xA2": {
+      "mnemonic": "AGENT_CAP",
+      "category": "agent",
+      "desc": "Get agent capability",
+      "operands": [
+        "Rd",
+        "agent_id"
+      ]
+    },
+    "0xA3": {
+      "mnemonic": "AGENT_STATE",
+      "category": "agent",
+      "desc": "Get agent state",
+      "operands": [
+        "Rd",
+        "agent_id"
+      ]
+    },
+    "0xA4": {
+      "mnemonic": "AGENT_BIND",
+      "category": "agent",
+      "desc": "Bind to agent",
+      "operands": [
+        "agent_id",
+        "port_reg"
+      ]
+    },
+    "0xA5": {
+      "mnemonic": "AGENT_UNBIND",
+      "category": "agent",
+      "desc": "Unbind from agent",
+      "operands": [
+        "agent_id"
+      ]
+    },
+    "0xA6": {
+      "mnemonic": "RESERVED_A6",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xA7": {
+      "mnemonic": "RESERVED_A7",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xA8": {
+      "mnemonic": "RESERVED_A8",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xA9": {
+      "mnemonic": "RESERVED_A9",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xAA": {
+      "mnemonic": "RESERVED_AA",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xAB": {
+      "mnemonic": "RESERVED_AB",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xAC": {
+      "mnemonic": "RESERVED_AC",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xAD": {
+      "mnemonic": "RESERVED_AD",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xAE": {
+      "mnemonic": "RESERVED_AE",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xAF": {
+      "mnemonic": "RESERVED_AF",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xB0": {
+      "mnemonic": "PLATO_READ",
+      "category": "plato",
+      "desc": "Read tile from PLATO",
+      "operands": [
+        "Rd",
+        "room_id",
+        "tile_id"
+      ]
+    },
+    "0xB1": {
+      "mnemonic": "PLATO_WRITE",
+      "category": "plato",
+      "desc": "Write tile to PLATO",
+      "operands": [
+        "room_id",
+        "Rs"
+      ]
+    },
+    "0xB2": {
+      "mnemonic": "PLATO_SEARCH",
+      "category": "plato",
+      "desc": "Search PLATO room",
+      "operands": [
+        "Rd",
+        "room_id",
+        "query_reg"
+      ]
+    },
+    "0xB3": {
+      "mnemonic": "PLATO_JOIN",
+      "category": "plato",
+      "desc": "Join PLATO room",
+      "operands": [
+        "room_id"
+      ]
+    },
+    "0xB4": {
+      "mnemonic": "PLATO_LEAVE",
+      "category": "plato",
+      "desc": "Leave PLATO room",
+      "operands": [
+        "room_id"
+      ]
+    },
+    "0xB5": {
+      "mnemonic": "PLATO_STATUS",
+      "category": "plato",
+      "desc": "Get PLATO gate status",
+      "operands": [
+        "Rd"
+      ]
+    },
+    "0xB6": {
+      "mnemonic": "RESERVED_B6",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xB7": {
+      "mnemonic": "RESERVED_B7",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xB8": {
+      "mnemonic": "RESERVED_B8",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xB9": {
+      "mnemonic": "RESERVED_B9",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xBA": {
+      "mnemonic": "RESERVED_BA",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xBB": {
+      "mnemonic": "RESERVED_BB",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xBC": {
+      "mnemonic": "RESERVED_BC",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xBD": {
+      "mnemonic": "RESERVED_BD",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xBE": {
+      "mnemonic": "RESERVED_BE",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xBF": {
+      "mnemonic": "RESERVED_BF",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xC0": {
+      "mnemonic": "STR_LEN",
+      "category": "string",
+      "desc": "String length",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0xC1": {
+      "mnemonic": "STR_CMP",
+      "category": "string",
+      "desc": "String compare",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0xC2": {
+      "mnemonic": "STR_CAT",
+      "category": "string",
+      "desc": "String concatenate",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0xC3": {
+      "mnemonic": "STR_SUB",
+      "category": "string",
+      "desc": "String substring",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0xC4": {
+      "mnemonic": "STR_FIND",
+      "category": "string",
+      "desc": "String find",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0xC5": {
+      "mnemonic": "STR_SPLIT",
+      "category": "string",
+      "desc": "String split",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0xC6": {
+      "mnemonic": "JSON_PARSE",
+      "category": "string",
+      "desc": "Parse JSON",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0xC7": {
+      "mnemonic": "JSON_STRINGIFY",
+      "category": "string",
+      "desc": "Stringify JSON",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0xC8": {
+      "mnemonic": "RESERVED_C8",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xC9": {
+      "mnemonic": "RESERVED_C9",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xCA": {
+      "mnemonic": "RESERVED_CA",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xCB": {
+      "mnemonic": "RESERVED_CB",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xCC": {
+      "mnemonic": "RESERVED_CC",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xCD": {
+      "mnemonic": "RESERVED_CD",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xCE": {
+      "mnemonic": "RESERVED_CE",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xCF": {
+      "mnemonic": "RESERVED_CF",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xD0": {
+      "mnemonic": "NN_LOAD",
+      "category": "ml",
+      "desc": "Load neural network weights",
+      "operands": [
+        "Rd",
+        "model_id"
+      ]
+    },
+    "0xD1": {
+      "mnemonic": "NN_INFER",
+      "category": "ml",
+      "desc": "Run inference",
+      "operands": [
+        "Rd",
+        "model_id",
+        "input_reg"
+      ]
+    },
+    "0xD2": {
+      "mnemonic": "NN_EMBED",
+      "category": "ml",
+      "desc": "Generate embedding",
+      "operands": [
+        "Rd",
+        "input_reg"
+      ]
+    },
+    "0xD3": {
+      "mnemonic": "NN_SIMILARITY",
+      "category": "ml",
+      "desc": "Compute similarity",
+      "operands": [
+        "Rd",
+        "Ra",
+        "Rb"
+      ]
+    },
+    "0xD4": {
+      "mnemonic": "NN_CLASSIFY",
+      "category": "ml",
+      "desc": "Classify input",
+      "operands": [
+        "Rd",
+        "model_id",
+        "input_reg"
+      ]
+    },
+    "0xD5": {
+      "mnemonic": "RESERVED_D5",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xD6": {
+      "mnemonic": "RESERVED_D6",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xD7": {
+      "mnemonic": "RESERVED_D7",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xD8": {
+      "mnemonic": "RESERVED_D8",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xD9": {
+      "mnemonic": "RESERVED_D9",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xDA": {
+      "mnemonic": "RESERVED_DA",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xDB": {
+      "mnemonic": "RESERVED_DB",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xDC": {
+      "mnemonic": "RESERVED_DC",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xDD": {
+      "mnemonic": "RESERVED_DD",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xDE": {
+      "mnemonic": "RESERVED_DE",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xDF": {
+      "mnemonic": "RESERVED_DF",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xE0": {
+      "mnemonic": "GPU_LOAD",
+      "category": "gpu",
+      "desc": "Load data to GPU",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0xE1": {
+      "mnemonic": "GPU_STORE",
+      "category": "gpu",
+      "desc": "Store data from GPU",
+      "operands": [
+        "Rd",
+        "Ra"
+      ]
+    },
+    "0xE2": {
+      "mnemonic": "GPU_KERNEL",
+      "category": "gpu",
+      "desc": "Launch GPU kernel",
+      "operands": [
+        "kernel_id",
+        "grid_reg"
+      ]
+    },
+    "0xE3": {
+      "mnemonic": "GPU_SYNC",
+      "category": "gpu",
+      "desc": "Synchronize GPU",
+      "operands": []
+    },
+    "0xE4": {
+      "mnemonic": "RESERVED_E4",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xE5": {
+      "mnemonic": "RESERVED_E5",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xE6": {
+      "mnemonic": "RESERVED_E6",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xE7": {
+      "mnemonic": "RESERVED_E7",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xE8": {
+      "mnemonic": "RESERVED_E8",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xE9": {
+      "mnemonic": "RESERVED_E9",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xEA": {
+      "mnemonic": "RESERVED_EA",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xEB": {
+      "mnemonic": "RESERVED_EB",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xEC": {
+      "mnemonic": "RESERVED_EC",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xED": {
+      "mnemonic": "RESERVED_ED",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xEE": {
+      "mnemonic": "RESERVED_EE",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xEF": {
+      "mnemonic": "RESERVED_EF",
+      "category": "reserved",
+      "desc": "Reserved",
+      "operands": []
+    },
+    "0xF0": {
+      "mnemonic": "CONTRACT",
+      "operands": "ra, rb, threshold",
+      "desc": "Contract two int32 arrays \u2014 count pairs above threshold. Backed by Fortran contract().",
+      "group": "compute"
+    },
+    "0xF1": {
+      "mnemonic": "SPLINE",
+      "operands": "before, after, mu",
+      "desc": "Linear interpolation between arrays. mu=0\u2192before, mu=1024\u2192after. Backed by Fortran spline().",
+      "group": "compute"
+    },
+    "0xF2": {
+      "mnemonic": "GRADIENT",
+      "operands": "arr",
+      "desc": "Absolute differences between consecutive elements. Backed by Fortran gradient().",
+      "group": "compute"
+    },
+    "0xF3": {
+      "mnemonic": "WCONTRACT",
+      "operands": "time_a, a, time_b, b, window",
+      "desc": "Time-windowed contract \u2014 only compares pairs within \u0394t \u2264 window. Backed by window_contract().",
+      "group": "temporal"
+    },
+    "0xF4": {
+      "mnemonic": "WGRADIENT",
+      "operands": "arr, window",
+      "desc": "Smoothed gradient over sliding window. Backed by window_gradient().",
+      "group": "temporal"
+    },
+    "0xF5": {
+      "mnemonic": "RECENCY_DOT",
+      "operands": "a, time_a, b, time_b",
+      "desc": "Recency-weighted dot product. Older tiles weighted less. Backed by recency_dot().",
+      "group": "temporal"
+    },
+    "0xF6": {
+      "mnemonic": "FILTER",
+      "operands": "arr, target, tolerance",
+      "desc": "Return indices where abs(arr - target) \u2264 tolerance. Backed by filter_val().",
+      "group": "compute"
+    },
+    "0xF7": {
+      "mnemonic": "SHATTER",
+      "operands": "room, n_fragments",
+      "desc": "Shatter room context into N incomplete overlapping fragments for distributed reconstruction.",
+      "group": "memory"
+    },
+    "0xF8": {
+      "mnemonic": "RECALL",
+      "operands": "room, count, source",
+      "desc": "Lossy reconstruction \u2014 read tiles, apply recency weight, write back as new tiles.",
+      "group": "memory"
+    },
+    "0xF9": {
+      "mnemonic": "TELEPHONE",
+      "operands": "seed, hops",
+      "desc": "Run telephone game across N hops. Measure information drift.",
+      "group": "memory"
+    },
+    "0xFA": {
+      "mnemonic": "CONSENSUS",
+      "operands": "room, threshold",
+      "desc": "Compute consensus across agent fragments. Return overlap and negative space.",
+      "group": "cooperation"
+    },
+    "0xFB": {
+      "mnemonic": "WITNESS",
+      "operands": "target_room",
+      "desc": "Spawn witness agent that observes reconstruction without participating.",
+      "group": "cooperation"
+    },
+    "0xFC": {
+      "mnemonic": "ADJOIN",
+      "operands": "model_a, model_b, theta",
+      "desc": "Compose two adjunctions. Returns the Galois connection of the composition.",
+      "group": "theory"
+    },
+    "0xFD": {
+      "mnemonic": "RECONCILE",
+      "operands": "fragment_ids",
+      "desc": "Reconcile multiple fragments into unified reconstruction through debrief.",
+      "group": "cooperation"
+    },
+    "0xFE": {
+      "mnemonic": "FORGET",
+      "operands": "room, decay_rate",
+      "desc": "Apply Ebbinghaus forgetting curve to room. Lower confidence on older tiles.",
+      "group": "memory"
+    },
+    "0xFF": {
+      "mnemonic": "FULL_INTELLIGENCE",
+      "operands": "facts, meaning, cooperation",
+      "desc": "Compute complete intelligence metric: facts_preserved \u00d7 meaning_adapted \u00d7 cooperation_achieved.",
+      "group": "theory"
+    }
   },
   "categories": {
     "control": "0x00, 0x70-0x76",
@@ -308,5 +1961,16 @@
     "R13": "Flags/status",
     "R14": "Temp / base pointer",
     "R15": "Link register"
+  },
+  "compute_claw": {
+    "backend": "Fortran .so (libplato_math.so)",
+    "bridge": "Zig comptime dispatch (libft_zig.so, libdispatch.so)",
+    "peak_throughput": "21.2B pairs/sec (contract 5K\u00d75K)",
+    "languages": [
+      "Fortran (arrays)",
+      "Zig (bridge)",
+      "Python (orchestration)"
+    ],
+    "adjunction_unified": "Every opcode parameter is an adjunction unit \u03b8"
   }
 }
